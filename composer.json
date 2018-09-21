@@ -1,0 +1,35 @@
+{
+  "name": "dymantic/laravel-static",
+  "description": "Provide a place to store static info that does not require a db",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Joyner",
+      "email": "joyner.michael@gmail.com"
+    }
+  ],
+  "require": {
+    "orchestra/testbench": "^3.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dymantic\\LaravelStatic\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dymantic\\LaravelStatic\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Dymantic\\LaravelStatic\\LaravelStaticServiceProvider"
+      ]
+    }
+  }
+}
