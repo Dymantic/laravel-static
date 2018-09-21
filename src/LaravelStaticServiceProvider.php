@@ -10,7 +10,7 @@ class LaravelStaticServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '../config/laravel-static.php' => config_path('laravel-static.php')
+            __DIR__ . '/../config/laravel-static.php' => config_path('laravel-static.php')
         ]);
     }
 
