@@ -35,6 +35,27 @@ class DataRepositoryTest extends TestCase
     /**
      *@test
      */
+    public function it_loads_files_in_nested_directories()
+    {
+        $root = __DIR__ . '/fixtures/nested_dir_data';
+        $repo = new DataRepository($root);
+
+        $expected = [
+            'key_vals' => ['foo_key_one' => 'foo_value_one', 'foo_key_two' => 'foo_value_two'],
+            'nums'     => [1, 2, 3, 4, 5],
+            'nested'   => [
+                'level_one' => [
+                    'level_two' => ['key' => 'value']
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $repo->all());
+    }
+
+    /**
+     *@test
+     */
     public function the_value_of_a_data_file_can_be_retrieved_from_the_repo_using_dot_notation()
     {
         $root = __DIR__ . '/fixtures/data';

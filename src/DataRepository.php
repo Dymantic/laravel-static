@@ -18,11 +18,21 @@ class DataRepository
             $this->items = [];
             return;
         }
-        $this->items = collect(scandir($root))->reject(function($path) use ($root) {
-            return is_dir($root . DIRECTORY_SEPARATOR . $path);
-        })->flatMap(function($path) use ($root) {
+
+        config()->set('filesystems.disks.laravel-static.driver', 'local');
+        config()->set('filesystems.disks.laravel-static.root', $root);
+
+        $files = collect(Storage::disk('laravel-static')->allFiles());
+
+        $this->items = $files->flatMap(function($path) use ($root) {
             return [str_replace('.php', '', $path) => realpath($root . DIRECTORY_SEPARATOR . $path)];
         })->flatMap(function($path, $key) {
+            if(str_contains($key, '/')) {
+                $dots = str_replace('/', '.', $key);
+                $base = [];
+                Arr::set($base, $dots, require $path);
+                return $base;
+            }
             return [$key => require $path];
         })->all();
     }
