@@ -45,7 +45,8 @@ class DataRepositoryTest extends TestCase
             'nums'     => [1, 2, 3, 4, 5],
             'nested'   => [
                 'level_one' => [
-                    'level_two' => ['key' => 'value']
+                    'level_two' => ['key' => 'value'],
+                    'level_two_b' => ['b_key' => 'b_value'],
                 ]
             ]
         ];

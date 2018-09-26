@@ -14,27 +14,26 @@ class DataRepository
 
     public function __construct($root)
     {
-        if(!is_dir($root)) {
+        if (!is_dir($root)) {
             $this->items = [];
+
             return;
         }
 
         config()->set('filesystems.disks.laravel-static.driver', 'local');
         config()->set('filesystems.disks.laravel-static.root', $root);
 
-        $files = collect(Storage::disk('laravel-static')->allFiles());
+        $base = [];
 
-        $this->items = $files->flatMap(function($path) use ($root) {
-            return [str_replace('.php', '', $path) => realpath($root . DIRECTORY_SEPARATOR . $path)];
-        })->flatMap(function($path, $key) {
-            if(str_contains($key, '/')) {
+        collect(Storage::disk('laravel-static')->allFiles())
+            ->flatMap(function ($path) use ($root) {
+                return [str_replace('.php', '', $path) => realpath($root . DIRECTORY_SEPARATOR . $path)];
+            })->each(function ($path, $key) use (&$base) {
                 $dots = str_replace('/', '.', $key);
-                $base = [];
                 Arr::set($base, $dots, require $path);
-                return $base;
-            }
-            return [$key => require $path];
-        })->all();
+            });
+
+        $this->items = $base;
     }
 
     public function all()
