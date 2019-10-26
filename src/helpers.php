@@ -12,7 +12,7 @@ if(! function_exists('data')) {
           return $repo->get($key, $default);
       }
 
-      throw new InvalidArgumentException('data helper can only be called with a string value for the data key');
+      throw new InvalidArgumentException('data helper should only be called with a string value for the data key');
 
   }
 };
