@@ -9,7 +9,7 @@
       "email": "joyner.michael@gmail.com"
     }
   ],
-  "require": {
+  "require-dev": {
     "orchestra/testbench": "^3.7"
   },
   "autoload": {
