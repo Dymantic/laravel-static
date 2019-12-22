@@ -26,6 +26,9 @@ class DataRepository
         $base = [];
 
         collect(Storage::disk('laravel-static')->allFiles())
+            ->reject(function($path) {
+                return pathinfo($path, PATHINFO_EXTENSION) !== 'php';
+            })
             ->flatMap(function ($path) use ($root) {
                 return [str_replace('.php', '', $path) => realpath($root . DIRECTORY_SEPARATOR . $path)];
             })->each(function ($path, $key) use (&$base) {

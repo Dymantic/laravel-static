@@ -77,4 +77,28 @@ class DataRepositoryTest extends TestCase
 
         $this->assertEquals('USE ME INSTEAD', $repo->get('key.does.not.exist', 'USE ME INSTEAD'));
     }
+
+    /**
+     *@test
+     */
+    public function non_php_files_are_ignored()
+    {
+        $root = __DIR__ . '/fixtures/data_with_invalid_file';
+        $repo = new DataRepository($root);
+
+        $expected = [
+            'key_vals' => ['foo_key_one' => 'foo_value_one', 'foo_key_two' => 'foo_value_two'],
+            'nums'     => [1, 2, 3, 4, 5],
+            'nested'   => [
+                'level_one' => [
+                    'key' => 'value'
+                ],
+                'level_two' => [
+                    'key' => ['inner_key' => 1]
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $repo->all());
+    }
 }
